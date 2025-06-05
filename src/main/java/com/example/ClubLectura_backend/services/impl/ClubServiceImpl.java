@@ -1,11 +1,16 @@
 package com.example.ClubLectura_backend.services.impl;
 
+import com.example.ClubLectura_backend.DTOs.ClubDTO;
+import com.example.ClubLectura_backend.entities.AppUser;
 import com.example.ClubLectura_backend.entities.Club;
 import com.example.ClubLectura_backend.repositories.ClubRepository;
 import com.example.ClubLectura_backend.services.ClubService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +20,10 @@ public class ClubServiceImpl implements ClubService {
     //Attributes
     @Autowired
     ClubRepository clubRepository;
+    @Autowired
+    ClubMembershipServiceImpl clubMembershipService;
+    @Autowired
+    AppUserServiceImpl appUserService;
 
     //CRUD Methods
     @Override
@@ -28,8 +37,8 @@ public class ClubServiceImpl implements ClubService {
     }
 
     @Override
-    public void save(Club club) {
-        clubRepository.save(club);
+    public Club save(Club club) {
+        return clubRepository.save(club);
     }
 
     @Override
@@ -43,6 +52,22 @@ public class ClubServiceImpl implements ClubService {
     }
 
     //Logic Methods
+
+    public Club createClub(ClubDTO dto) {
+        Club newClub = new Club();
+        AppUser creator = appUserService.findById(dto.getCreatorId())
+                .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado"));
+
+        newClub.setCreator(creator);
+        newClub.setName(dto.getName());
+        newClub.setType(newClub.getType());
+        newClub.setCreationDate(LocalDate.now());
+        newClub = this.save(newClub);
+
+        clubMembershipService.createMembership(creator, newClub,true);
+
+        return newClub;
+    }
 
     /*
     todo Lista de métodos de Club a añadir

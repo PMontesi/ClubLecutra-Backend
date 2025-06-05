@@ -3,7 +3,7 @@ package com.example.ClubLectura_backend.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 @Entity
 @Data
@@ -24,7 +24,7 @@ public class Rating {
     @Column(nullable = false)
     private int score;
 
-    private Date date;
+    private LocalDate date;
 
 
 }

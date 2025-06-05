@@ -1,5 +1,6 @@
 package com.example.ClubLectura_backend.controllers;
 
+import com.example.ClubLectura_backend.DTOs.ClubDTO;
 import com.example.ClubLectura_backend.entities.Club;
 import com.example.ClubLectura_backend.services.impl.ClubServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +18,11 @@ public class ClubController {
 
     //CRUD endpoints
     @PostMapping
-    public ResponseEntity<Club> create(@RequestBody Club club) {
-        clubService.save(club);
-        return ResponseEntity.status(HttpStatus.CREATED).body(club);
+    public ResponseEntity<Club> create(@RequestBody ClubDTO clubDto) {
+        Club newClub = clubService.createClub(clubDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newClub);
+
+        //Todo añadir en un futuro una clase que sea ClubResponseDTO que devuelve solo los datos seleccionados
     }
 
     @GetMapping("/{id}")

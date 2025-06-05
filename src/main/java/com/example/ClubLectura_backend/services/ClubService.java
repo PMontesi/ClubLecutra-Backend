@@ -10,7 +10,7 @@ public interface ClubService {
 
     Optional<Club> findById(long id);
     List<Club> findAll();
-    void save(Club club);
+    Club save(Club club);
     void delete(long id);
     void delete(Club club);
 }

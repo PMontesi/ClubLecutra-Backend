@@ -1,11 +1,14 @@
 package com.example.ClubLectura_backend.services.impl;
 
+import com.example.ClubLectura_backend.entities.AppUser;
+import com.example.ClubLectura_backend.entities.Club;
 import com.example.ClubLectura_backend.entities.ClubMembership;
 import com.example.ClubLectura_backend.repositories.ClubMembershipRepository;
 import com.example.ClubLectura_backend.services.ClubMembershipService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,8 +47,22 @@ public class ClubMembershipServiceImpl implements ClubMembershipService {
 
     //Logic Methods
 
+    public ClubMembership createMembership(AppUser user, Club club, boolean isOwner) {
+        ClubMembership membership = new ClubMembership();
+
+        membership.setAppUser(user);
+        membership.setClub(club);
+        membership.setOwner(isOwner);
+        membership.setUnionDate(LocalDate.now());
+
+        this.save(membership);
+
+        return membership;
+    }
+
+
     /*
-    todo lista de métodos de CLubMemership a añadir
+    todo lista de métodos de ClubMemership a añadir
 
     Quizá sea buena idea almacenar las estadísticas de cada usuario en esta tabla
     y después sumarlas y hacer medias para obtener las estadísticas del grupo.

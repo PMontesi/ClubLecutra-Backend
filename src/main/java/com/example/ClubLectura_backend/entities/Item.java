@@ -3,7 +3,7 @@ package com.example.ClubLectura_backend.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -18,7 +18,7 @@ public class Item {
     private String type;
     private String location;
     private String author;
-    private Date releaseDate;
+    private LocalDate releaseDate;
     private long idApi;
 
     @OneToMany(mappedBy = "item", fetch = FetchType.LAZY)

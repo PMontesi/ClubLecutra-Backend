@@ -3,7 +3,7 @@ package com.example.ClubLectura_backend.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Data
@@ -25,7 +25,7 @@ public class SelectedItem {
     @JoinColumn(name = "app_user_id")
     private AppUser appUser;
 
-    private Date startDate;
-    private Date endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private Boolean isActive;
 }

@@ -1,9 +1,10 @@
 package com.example.ClubLectura_backend.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -16,11 +17,12 @@ public class Club {
 
     @ManyToOne
     @JoinColumn(name = "creator_id", nullable = false)
+    @JsonBackReference
     private AppUser creator;
 
     private String name;
     private String type;
-    private Date creationDate;
+    private LocalDate creationDate;
 
     @OneToMany(mappedBy = "club", fetch = FetchType.LAZY)
     private List<SelectedItem> selectedItems;

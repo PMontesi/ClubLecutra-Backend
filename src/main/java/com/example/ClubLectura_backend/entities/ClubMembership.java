@@ -3,7 +3,7 @@ package com.example.ClubLectura_backend.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 @Entity
 @Data
@@ -22,6 +22,6 @@ public class ClubMembership {
     private Club club;
 
     private boolean owner;
-    private Date unionDate;
+    private LocalDate unionDate;
 
 }
