@@ -3,6 +3,7 @@ package com.example.ClubLectura_backend.controllers;
 import com.example.ClubLectura_backend.DTOs.ClubDTO;
 import com.example.ClubLectura_backend.entities.Club;
 import com.example.ClubLectura_backend.services.impl.ClubServiceImpl;
+import com.example.ClubLectura_backend.services.manager.ClubManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,13 +16,18 @@ public class ClubController {
     //Attributes
     @Autowired
     ClubServiceImpl clubService;
+    @Autowired
+    ClubManagerService clubManagerService;
 
     //CRUD endpoints
     @PostMapping
-    public ResponseEntity<Club> create(@RequestBody ClubDTO clubDto) {
-        Club newClub = clubService.createClub(clubDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(newClub);
-
+    public ResponseEntity<?> create(@RequestBody ClubDTO clubDto) {
+        try {
+            Club newClub = clubManagerService.createClub(clubDto);
+            return ResponseEntity.status(HttpStatus.CREATED).body(newClub);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error" + e.getMessage());
+        }
         //Todo añadir en un futuro una clase que sea ClubResponseDTO que devuelve solo los datos seleccionados
     }
 
@@ -34,7 +40,7 @@ public class ClubController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable long id) {
-        if(clubService.deleteClub(id)) {
+        if(clubManagerService.deleteClub(id)) {
             return ResponseEntity.ok("Club deleted");
         }
         else {

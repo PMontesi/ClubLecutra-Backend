@@ -5,6 +5,7 @@ import com.example.ClubLectura_backend.entities.Club;
 import com.example.ClubLectura_backend.entities.ClubMembership;
 import com.example.ClubLectura_backend.repositories.ClubMembershipRepository;
 import com.example.ClubLectura_backend.services.ClubMembershipService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,14 +46,35 @@ public class ClubMembershipServiceImpl implements ClubMembershipService {
         clubMembershipRepository.delete(clubMembership);
     }
 
+    @Override
+    public long countByClub_Id(long groupId) {
+        return clubMembershipRepository.countByClub_Id(groupId);
+    }
+
+    @Override
+    public Optional<ClubMembership> findByAppUser_Id(long userId) {
+        return clubMembershipRepository.findByAppUser_Id(userId);
+    }
+
+    @Override
+    public List<ClubMembership> findAllByClub_Id(long clubId) {
+        return clubMembershipRepository.findAllByClub_Id(clubId);
+    }
+
+    @Override
+    public Optional<ClubMembership> findByAppUser_IdAndClub_Id(long userId, long clubId) {
+        return clubMembershipRepository.findByAppUser_IdAndClub_Id(userId, clubId);
+    }
+
+
     //Logic Methods
 
-    public ClubMembership createMembership(AppUser user, Club club, boolean isOwner) {
+    public ClubMembership createMember(AppUser user, Club club, boolean isAdmin) {
         ClubMembership membership = new ClubMembership();
 
         membership.setAppUser(user);
         membership.setClub(club);
-        membership.setOwner(isOwner);
+        membership.setAdmin(isAdmin);
         membership.setUnionDate(LocalDate.now());
 
         this.save(membership);
@@ -60,6 +82,39 @@ public class ClubMembershipServiceImpl implements ClubMembershipService {
         return membership;
     }
 
+    public boolean leaveClub(long userId, long clubId) {
+        ClubMembership clubMember = this.findByAppUser_IdAndClub_Id(userId, clubId)
+                .orElseThrow(() -> new EntityNotFoundException("Member not found"));
+
+        if(clubMember.isAdmin()) {
+            return false;
+        } else {
+            this.delete(clubMember);
+        }
+
+        return true;
+    }
+
+    public boolean changeAdmin(long adminMemberId, long newAdminMemberId) {
+        try {
+            ClubMembership oldAdmin = this.findById(adminMemberId)
+                    .orElseThrow(() -> new EntityNotFoundException("Member not found"));
+
+            ClubMembership newAdmin = this.findById(newAdminMemberId)
+                    .orElseThrow(() -> new EntityNotFoundException("Member not found"));
+
+            oldAdmin.setAdmin(false);
+            newAdmin.setAdmin(true);
+
+            this.save(oldAdmin);
+            this.save(newAdmin);
+
+            return true;
+
+        } catch (EntityNotFoundException e) {
+            return false;
+        }
+    }
 
     /*
     todo lista de métodos de ClubMemership a añadir

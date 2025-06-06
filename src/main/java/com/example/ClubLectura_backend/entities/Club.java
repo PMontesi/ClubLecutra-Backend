@@ -1,6 +1,7 @@
 package com.example.ClubLectura_backend.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -27,6 +28,7 @@ public class Club {
 
     //Relations
     @OneToMany(mappedBy = "club", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @JsonManagedReference
     private List<ClubMembership> memberships;
 
 

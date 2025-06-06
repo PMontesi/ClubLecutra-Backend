@@ -7,7 +7,6 @@ import java.util.Optional;
 
 public interface ClubService {
 
-
     Optional<Club> findById(long id);
     List<Club> findAll();
     Club save(Club club);

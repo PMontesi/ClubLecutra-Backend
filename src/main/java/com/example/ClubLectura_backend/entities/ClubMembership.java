@@ -1,5 +1,6 @@
 package com.example.ClubLectura_backend.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -16,10 +17,12 @@ public class ClubMembership {
     private long id;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "app_user_id", nullable = false)
     private AppUser appUser;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "club_id", nullable = false)
     private Club club;
 

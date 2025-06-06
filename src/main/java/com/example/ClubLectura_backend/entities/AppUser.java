@@ -32,6 +32,7 @@ public class AppUser {
     private List<Club> clubsCreated;
 
     @OneToMany(mappedBy = "appUser")
+    @JsonManagedReference
     private List<ClubMembership> memberships;
 
 

@@ -1,5 +1,7 @@
 package com.example.ClubLectura_backend.services;
 
+import com.example.ClubLectura_backend.entities.AppUser;
+import com.example.ClubLectura_backend.entities.Club;
 import com.example.ClubLectura_backend.entities.ClubMembership;
 
 import java.util.List;
@@ -12,5 +14,10 @@ public interface ClubMembershipService {
     void save(ClubMembership clubMembership);
     void delete(long id);
     void delete(ClubMembership clubMembership);
+    long countByClub_Id(long clubId);
+    Optional<ClubMembership> findByAppUser_Id(long userId);
+    List<ClubMembership> findAllByClub_Id(long clubId);
+    Optional<ClubMembership> findByAppUser_IdAndClub_Id(long userId, long clubId);
+    public ClubMembership createMember(AppUser user, Club club, boolean isAdmin);
 
 }

@@ -1,16 +1,11 @@
 package com.example.ClubLectura_backend.services.impl;
 
-import com.example.ClubLectura_backend.DTOs.ClubDTO;
-import com.example.ClubLectura_backend.entities.AppUser;
 import com.example.ClubLectura_backend.entities.Club;
 import com.example.ClubLectura_backend.repositories.ClubRepository;
 import com.example.ClubLectura_backend.services.ClubService;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,10 +15,6 @@ public class ClubServiceImpl implements ClubService {
     //Attributes
     @Autowired
     ClubRepository clubRepository;
-    @Autowired
-    ClubMembershipServiceImpl clubMembershipService;
-    @Autowired
-    AppUserServiceImpl appUserService;
 
     //CRUD Methods
     @Override
@@ -53,21 +44,7 @@ public class ClubServiceImpl implements ClubService {
 
     //Logic Methods
 
-    public Club createClub(ClubDTO dto) {
-        Club newClub = new Club();
-        AppUser creator = appUserService.findById(dto.getCreatorId())
-                .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado"));
 
-        newClub.setCreator(creator);
-        newClub.setName(dto.getName());
-        newClub.setType(newClub.getType());
-        newClub.setCreationDate(LocalDate.now());
-        newClub = this.save(newClub);
-
-        clubMembershipService.createMembership(creator, newClub,true);
-
-        return newClub;
-    }
 
     /*
     todo Lista de métodos de Club a añadir
@@ -80,10 +57,6 @@ public class ClubServiceImpl implements ClubService {
     La opción B es usar la tabla de membership para almacenar las estadísticas de cada meimbro y
     después hacer las estadísticas del grupo
 
-    -Crear un grupo
-        -Requiere la id del usuario para crearse y guardarla como administrador.
-            -Habrá que usar el servicio del ClubMembership
-        -Requiere elegir el tipo de items a los que se tendrá acceso (por ahora películas)
 
     -Borrar el club (admin method)
         -Requiere que sea el único miembro del club
