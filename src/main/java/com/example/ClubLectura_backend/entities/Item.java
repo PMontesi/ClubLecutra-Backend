@@ -10,6 +10,7 @@ import java.util.List;
 @Data
 public class Item {
 
+    //Columns
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -19,8 +20,9 @@ public class Item {
     private String location;
     private String author;
     private LocalDate releaseDate;
-    private long idApi;
+    private long apiId;
 
+    //Relations
     @OneToMany(mappedBy = "item", fetch = FetchType.LAZY)
     private List<SelectedItem> selectedItems;
 }

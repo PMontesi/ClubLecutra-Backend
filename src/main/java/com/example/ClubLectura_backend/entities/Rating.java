@@ -9,6 +9,7 @@ import java.time.LocalDate;
 @Data
 public class Rating {
 
+    //Columns
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -18,8 +19,8 @@ public class Rating {
     private SelectedItem selectedItem;
 
     @ManyToOne
-    @JoinColumn(name = "app_user_id", nullable = false)
-    private AppUser appUser;
+    @JoinColumn(name = "club_member_id", nullable = false)
+    private ClubMembership clubMember;
 
     @Column(nullable = false)
     private int score;

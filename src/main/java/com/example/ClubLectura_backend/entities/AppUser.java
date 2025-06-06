@@ -11,6 +11,7 @@ import java.util.List;
 @Data
 public class AppUser {
 
+    //Columns
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -25,12 +26,10 @@ public class AppUser {
 
     private LocalDate registerDate;
 
+    //Relations
     @OneToMany(mappedBy = "creator", fetch = FetchType.LAZY)
     @JsonManagedReference
-    private List<Club> groupsCreated;
-
-    @OneToMany(mappedBy = "appUser", fetch = FetchType.LAZY)
-    private List<SelectedItem> selectedItems;
+    private List<Club> clubsCreated;
 
     @OneToMany(mappedBy = "appUser")
     private List<ClubMembership> memberships;

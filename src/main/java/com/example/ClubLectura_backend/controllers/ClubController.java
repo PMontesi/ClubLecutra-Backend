@@ -33,9 +33,13 @@ public class ClubController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Club> delete(@PathVariable long id) {
-        clubService.delete(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<String> delete(@PathVariable long id) {
+        if(clubService.deleteClub(id)) {
+            return ResponseEntity.ok("Club deleted");
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Can't delete a club with more than one member");
+        }
     }
 
 

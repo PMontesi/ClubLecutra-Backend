@@ -11,6 +11,7 @@ import java.util.List;
 @Data
 public class Club {
 
+    //Columns
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -24,10 +25,8 @@ public class Club {
     private String type;
     private LocalDate creationDate;
 
-    @OneToMany(mappedBy = "club", fetch = FetchType.LAZY)
-    private List<SelectedItem> selectedItems;
-
-    @OneToMany(mappedBy = "club")
+    //Relations
+    @OneToMany(mappedBy = "club", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<ClubMembership> memberships;
 
 
