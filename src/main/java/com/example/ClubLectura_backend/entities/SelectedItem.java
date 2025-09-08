@@ -20,8 +20,8 @@ public class SelectedItem {
     private Item item;
 
     @ManyToOne
-    @JoinColumn(name = "club_member_id", nullable = false)
-    private ClubMembership clubMember;
+    @JoinColumn(name = "club_id", nullable = false)
+    private Club club;
 
     private LocalDate startDate;
     private LocalDate endDate;

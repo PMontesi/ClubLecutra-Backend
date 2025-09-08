@@ -31,6 +31,7 @@ public class Club {
     @JsonManagedReference(value = "club_id")
     private List<ClubMembership> memberships;
 
-
+    @OneToMany(mappedBy = "club", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<SelectedItem> selectedItems;
 
 }

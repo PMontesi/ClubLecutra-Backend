@@ -30,9 +30,6 @@ public class ClubMembership {
     private LocalDate unionDate;
 
     //Relations
-    @OneToMany(mappedBy = "clubMember", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<SelectedItem> selectedItems;
-
     @OneToMany(mappedBy = "clubMember")
     private List<Rating> ratings;
 
