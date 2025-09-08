@@ -4,6 +4,7 @@ import com.example.ClubLectura_backend.entities.AppUser;
 import com.example.ClubLectura_backend.repositories.AppUserRepository;
 import com.example.ClubLectura_backend.services.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +16,8 @@ public class AppUserServiceImpl implements AppUserService {
     //Attributes
     @Autowired
     AppUserRepository appUserRepository;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     //CRUD Methods
     @Override
@@ -44,6 +47,16 @@ public class AppUserServiceImpl implements AppUserService {
 
     //Logic Methods
 
+    /*
+        Actualizaciones que hacere al método register:
+            -Que retorne un DTO del usuario
+            -Que guarde más información del usuario, como el nombre de usuario.
+     */
+    public void register(AppUser newUser) {
+        String password = newUser.getPassword();
+        newUser.setPassword(passwordEncoder.encode(password));
+        this.save(newUser);
+    }
         /*
         todo Lista de métodos de AppUser a añadir
 

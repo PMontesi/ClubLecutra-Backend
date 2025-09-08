@@ -19,7 +19,7 @@ public class Club {
 
     @ManyToOne
     @JoinColumn(name = "creator_id", nullable = false)
-    @JsonBackReference
+    @JsonBackReference(value = "clubsCreated")
     private AppUser creator;
 
     private String name;
@@ -28,7 +28,7 @@ public class Club {
 
     //Relations
     @OneToMany(mappedBy = "club", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @JsonManagedReference
+    @JsonManagedReference(value = "club_id")
     private List<ClubMembership> memberships;
 
 

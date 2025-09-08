@@ -17,12 +17,12 @@ public class ClubMembership {
     private long id;
 
     @ManyToOne
-    @JsonBackReference
+    @JsonBackReference(value = "memberships")
     @JoinColumn(name = "app_user_id", nullable = false)
     private AppUser appUser;
 
     @ManyToOne
-    @JsonBackReference
+    @JsonBackReference(value = "club_id")
     @JoinColumn(name = "club_id", nullable = false)
     private Club club;
 

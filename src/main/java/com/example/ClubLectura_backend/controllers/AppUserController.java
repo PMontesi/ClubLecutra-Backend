@@ -18,7 +18,7 @@ public class AppUserController {
     //CRUD endpoints
     @PostMapping
     public ResponseEntity<AppUser> create(@RequestBody AppUser user) {
-        appUserService.save(user);
+        appUserService.register(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 
