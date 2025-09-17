@@ -1,5 +1,6 @@
 package com.example.ClubLectura_backend.services.impl;
 
+import com.example.ClubLectura_backend.DTOs.AppUserDTO;
 import com.example.ClubLectura_backend.entities.AppUser;
 import com.example.ClubLectura_backend.repositories.AppUserRepository;
 import com.example.ClubLectura_backend.services.AppUserService;
@@ -19,7 +20,7 @@ public class AppUserServiceImpl implements AppUserService {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    //CRUD Methods
+    //CRUD basic Methods
     @Override
     public Optional<AppUser> findById(long id) {
         return appUserRepository.findById(id);
@@ -45,18 +46,45 @@ public class AppUserServiceImpl implements AppUserService {
         appUserRepository.delete(appUser);
     }
 
+    //Other CRUD Methods
+    @Override
+    public Optional<AppUser> findByEmail(String email) {
+        return appUserRepository.findByEmail(email);
+    }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return false;
+    }
+
     //Logic Methods
 
     /*
         Actualizaciones que hacere al método register:
-            -Que retorne un DTO del usuario
-            -Que guarde más información del usuario, como el nombre de usuario.
+            -Que guarde más información del usuario
      */
-    public void register(AppUser newUser) {
+    public AppUserDTO saveAppUser(AppUser newUser) {
+        System.out.println(newUser.toString());
         String password = newUser.getPassword();
         newUser.setPassword(passwordEncoder.encode(password));
         this.save(newUser);
+
+        return this.createDTO(newUser);
     }
+
+    public AppUserDTO createDTO(AppUser user) {
+        AppUserDTO dto = new AppUserDTO();
+
+        dto.setId(user.getId());
+        dto.setEmail(user.getEmail());
+        dto.setName(user.getName());
+        dto.setClubsCreated(user.getClubsCreated());
+        dto.setMemberships(user.getMemberships());
+
+
+        return dto;
+    }
+
         /*
         todo Lista de métodos de AppUser a añadir
 

@@ -3,12 +3,14 @@ package com.example.ClubLectura_backend.entities;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class ClubMembership {
 
     //Columns
@@ -27,11 +29,15 @@ public class ClubMembership {
     private Club club;
 
     private boolean admin;
-    private LocalDate unionDate;
+    private LocalDate unionDate = LocalDate.now();
 
     //Relations
     @OneToMany(mappedBy = "clubMember")
     private List<Rating> ratings;
 
-
+    public ClubMembership(AppUser appUser, Club club, boolean admin) {
+        this.appUser = appUser;
+        this.club = club;
+        this.admin = admin;
+    }
 }

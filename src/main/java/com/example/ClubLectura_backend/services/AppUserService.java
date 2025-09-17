@@ -12,4 +12,6 @@ public interface AppUserService {
     void save(AppUser appUser);
     void delete(long id);
     void delete(AppUser appUser);
+    Optional<AppUser> findByEmail(String email);
+    boolean existsByEmail(String email);
 }

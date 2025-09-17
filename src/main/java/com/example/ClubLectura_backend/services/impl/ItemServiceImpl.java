@@ -1,6 +1,7 @@
 package com.example.ClubLectura_backend.services.impl;
 
 import com.example.ClubLectura_backend.entities.Item;
+import com.example.ClubLectura_backend.entities.SelectedItem;
 import com.example.ClubLectura_backend.repositories.ItemRepository;
 import com.example.ClubLectura_backend.services.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,19 @@ public class ItemServiceImpl implements ItemService {
     public void delete(Item item) {
         itemRepository.delete(item);
     }
+
+    @Override
+    public Item getReferenceById(long itemId) {
+        return itemRepository.getReferenceById(itemId);
+    }
+
+    /*
+    @Override
+    public Item findBySelectedItem(SelectedItem selectedItem) {
+        return itemRepository.findBySelectedItem(selectedItem);
+    }
+    */
+
 
     //Logic Methods
 

@@ -48,6 +48,7 @@ public class SecurityConfig {
                                     "/api/users/**",
                                     "/api/clubs/**",
                                     "/api/clubmemberships/**",
+                                    "/api/item/**",
                                     "/api/hello"
                             ).permitAll().anyRequest().authenticated()
                 )

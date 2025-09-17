@@ -4,11 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClubDTO {
-    public long creatorId;
-    public String name;
-    public String type;
+public class RatingDTO {
+
+    private long clubMemberId;
+    private long selectedItemId;
+    private int score;
+    private LocalDate date;
+
 }

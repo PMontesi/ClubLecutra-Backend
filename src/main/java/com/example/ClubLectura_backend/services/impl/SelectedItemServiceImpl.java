@@ -3,9 +3,11 @@ package com.example.ClubLectura_backend.services.impl;
 import com.example.ClubLectura_backend.entities.SelectedItem;
 import com.example.ClubLectura_backend.repositories.SelectedItemRepository;
 import com.example.ClubLectura_backend.services.SelectedItemService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,7 +44,39 @@ public class SelectedItemServiceImpl implements SelectedItemService {
         selectedItemRepository.delete(selectedItem);
     }
 
+    @Override
+    public Optional<SelectedItem> findActiveByClubId(long clubId) {
+        return selectedItemRepository.findActiveByClubId(clubId);
+    }
+
+    @Override
+    public SelectedItem getReferenceById(long selectedItemId) {
+        return selectedItemRepository.getReferenceById(selectedItemId);
+    }
+
+
     //Logic Methods
+
+    public void isActiveToFalse(long selectedItemId) {
+        SelectedItem se = selectedItemRepository.findById(selectedItemId)
+                .orElseThrow(() -> new EntityNotFoundException("No Selected Item found"));
+        se.setIsActive(false);
+        selectedItemRepository.save(se);
+    }
+
+    public LocalDate changeEndDate(long selectedItemId, LocalDate newEndDate) throws Exception {
+        SelectedItem se = selectedItemRepository.findById(selectedItemId)
+                .orElseThrow(() -> new EntityNotFoundException("No Selected Item found"));
+
+        if(se.getEndDate().isBefore(se.getStartDate()) || se.getStartDate().isBefore(LocalDate.now())) {
+            throw new Exception("New end date can't be before the start date or today's date");
+        }
+
+        se.setEndDate(newEndDate);
+        selectedItemRepository.save(se);
+
+        return se.getEndDate();
+    }
 
     /*
     todo Métodos de SelectedItem a añadir

@@ -2,11 +2,13 @@ package com.example.ClubLectura_backend.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class Rating {
 
     //Columns
@@ -27,5 +29,10 @@ public class Rating {
 
     private LocalDate date;
 
-
+    public Rating(SelectedItem selectedItem, ClubMembership clubMember, int score, LocalDate date) {
+        this.selectedItem = selectedItem;
+        this.clubMember = clubMember;
+        this.score = score;
+        this.date = date;
+    }
 }

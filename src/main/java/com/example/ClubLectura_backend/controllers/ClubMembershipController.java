@@ -48,6 +48,23 @@ public class ClubMembershipController {
         }
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ClubMembership> getById(@PathVariable long clubMemeberId) {
+        return clubMembershipService.findById(clubMemeberId)
+                .map(u -> ResponseEntity.ok(u))
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    /* REVISAR
+    @GetMapping("/{appUserId}")
+    public ResponseEntity<ClubMembership> getByAppUserId(@PathVariable long appUserId) {
+        return clubMembershipService.findByAppUser_Id(appUserId)
+                .map(u -> ResponseEntity.ok(u))
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+     */
+
     @PutMapping("/admin")
     public ResponseEntity<?> changeAdmin(@RequestParam long adminMemberId, @RequestParam long newAdminMemberId) {
         boolean result = clubMembershipService.changeAdmin(adminMemberId, newAdminMemberId);

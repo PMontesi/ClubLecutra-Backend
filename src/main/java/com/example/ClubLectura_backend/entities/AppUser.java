@@ -3,6 +3,7 @@ package com.example.ClubLectura_backend.entities;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class AppUser implements UserDetails {
 
     //Columns
@@ -19,7 +21,7 @@ public class AppUser implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String username;
+    private String name;
 
     @Column(unique = true, nullable = false)
     private String email;
@@ -27,7 +29,7 @@ public class AppUser implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    private LocalDate registerDate;
+    private LocalDate registerDate = LocalDate.now();
 
     //Relations
     @OneToMany(mappedBy = "creator", fetch = FetchType.LAZY)
@@ -37,6 +39,12 @@ public class AppUser implements UserDetails {
     @OneToMany(mappedBy = "appUser")
     @JsonManagedReference(value = "memberships")
     private List<ClubMembership> memberships;
+
+    public AppUser(String name, String email, String password) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
 
     @Override
     public String getUsername() {

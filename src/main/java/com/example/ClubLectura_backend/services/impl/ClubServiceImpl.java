@@ -1,12 +1,17 @@
 package com.example.ClubLectura_backend.services.impl;
 
+import com.example.ClubLectura_backend.DTOs.ClubMenuDTO;
 import com.example.ClubLectura_backend.entities.Club;
+import com.example.ClubLectura_backend.entities.ClubMembership;
+import com.example.ClubLectura_backend.entities.Item;
+import com.example.ClubLectura_backend.entities.SelectedItem;
 import com.example.ClubLectura_backend.repositories.ClubRepository;
 import com.example.ClubLectura_backend.services.ClubService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -42,8 +47,38 @@ public class ClubServiceImpl implements ClubService {
         clubRepository.delete(club);
     }
 
+    //Other Methods
+    @Override
+    public List<Object[]> findClubsForUser(long userId) {
+        return clubRepository.findClubsForUser(userId);
+    }
+
+    @Override
+    public Club getReferenceById(long clubId) {
+        return clubRepository.getReferenceById(clubId);
+    }
+
+
     //Logic Methods
 
+    public List<ClubMenuDTO> getMenuDTO(long userId) {
+        List<Object[]> results = this.findClubsForUser(userId);
+
+        System.out.println(results.toString());
+
+        List<ClubMenuDTO> dtos = results.stream()
+                .map(row -> new ClubMenuDTO(
+                        (Long) row[0],                   // clubId
+                        (String) row[1],                 // clubName
+                        row[2] != null ? (Long) row[2] : null, // selectedItemId
+                        (String) row[3],                 // itemName
+                        (Long) row[4]                    // userClubMemberId
+                ))
+                .toList();
+
+
+        return dtos;
+    }
 
 
     /*

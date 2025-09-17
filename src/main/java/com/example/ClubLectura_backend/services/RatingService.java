@@ -12,5 +12,8 @@ public interface RatingService {
     void save(Rating rating);
     void delete(long id);
     void delete(Rating rating);
+    public List<Rating> findBySelectedItem_Id(long selectedItemId);
+    public List<Rating> findByClubMember_Id(long clubMemberId);
+    public Rating findByClubMember_IdAndSelectedItem_Id(long clubMemberId, long selectedItemId);
 
 }

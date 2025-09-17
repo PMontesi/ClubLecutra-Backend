@@ -1,5 +1,6 @@
 package com.example.ClubLectura_backend.services.impl;
 
+import com.example.ClubLectura_backend.DTOs.RatingDTO;
 import com.example.ClubLectura_backend.entities.Rating;
 import com.example.ClubLectura_backend.repositories.RatingRepository;
 import com.example.ClubLectura_backend.services.RatingService;
@@ -41,6 +42,24 @@ public class RatingServiceImpl implements RatingService {
     public void delete(Rating rating) {
         ratingRepository.delete(rating);
     }
+
+    @Override
+    public List<Rating> findBySelectedItem_Id(long selectedItemId) {
+        return ratingRepository.findBySelectedItem_Id(selectedItemId);
+    }
+
+    @Override
+    public List<Rating> findByClubMember_Id(long clubMemberId) {
+        return ratingRepository.findByClubMember_Id(clubMemberId);
+    }
+
+    @Override
+    public Rating findByClubMember_IdAndSelectedItem_Id(long clubMemberId, long selectedItemId) {
+        return ratingRepository.findByClubMember_IdAndSelectedItem_Id(clubMemberId, selectedItemId);
+    }
+
+
+
 
     //Logic Methods
 

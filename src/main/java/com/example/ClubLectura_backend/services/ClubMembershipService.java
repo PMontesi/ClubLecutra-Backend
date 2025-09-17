@@ -18,6 +18,7 @@ public interface ClubMembershipService {
     Optional<ClubMembership> findByAppUser_Id(long userId);
     List<ClubMembership> findAllByClub_Id(long clubId);
     Optional<ClubMembership> findByAppUser_IdAndClub_Id(long userId, long clubId);
-    public ClubMembership createMember(AppUser user, Club club, boolean isAdmin);
+    ClubMembership createMember(AppUser user, Club club, boolean isAdmin);
+    ClubMembership getReferenceById(long clubMembershipId);
 
 }

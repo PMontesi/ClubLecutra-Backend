@@ -82,6 +82,11 @@ public class ClubMembershipServiceImpl implements ClubMembershipService {
         return membership;
     }
 
+    @Override
+    public ClubMembership getReferenceById(long clubMembershipId) {
+        return clubMembershipRepository.getReferenceById(clubMembershipId);
+    }
+
     public boolean leaveClub(long userId, long clubId) {
         ClubMembership clubMember = this.findByAppUser_IdAndClub_Id(userId, clubId)
                 .orElseThrow(() -> new EntityNotFoundException("Member not found"));
