@@ -26,9 +26,9 @@ public class ItemController {
 
 
     @GetMapping("/actualClubItem")
-    public ResponseEntity<CardItemDTO> getActualClubItem(@RequestParam long selectedItemId, @RequestParam long appUserId) {
+    public ResponseEntity<CardItemDTO> getActualClubItem(@RequestParam long selectedItemId, @RequestParam long clubMemberId) {
         try {
-            CardItemDTO dto = itemManagerService.createCardItemDTO(selectedItemId, appUserId);
+            CardItemDTO dto = itemManagerService.createCardItemDTO(selectedItemId, clubMemberId);
             return ResponseEntity.ok(dto);
         } catch (EntityNotFoundException e) {
             return ResponseEntity.notFound().build();
