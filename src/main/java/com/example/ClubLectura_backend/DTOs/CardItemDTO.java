@@ -12,15 +12,17 @@ import java.time.LocalDate;
 public class CardItemDTO {
 
     // From item entity
-    public String name;
-    public String location;
-    public String Author;
-    public LocalDate releaseDate;
+    private String name;
+    private String location;
+    private String Author;
+    private LocalDate releaseDate;
     //public String synopsis;
     //public String image;
 
     // From selected item entity
-    public LocalDate startDate;
-    public LocalDate endDate;
-    public int rating;
+    private LocalDate startDate;
+    private LocalDate endDate;
+    private int rating;
+    private long selectedItemId;
+
 }

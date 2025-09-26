@@ -10,7 +10,7 @@ public interface SelectedItemService {
 
     Optional<SelectedItem> findById(long id);
     List<SelectedItem> findAll();
-    void save(SelectedItem selectedItem);
+    SelectedItem save(SelectedItem selectedItem);
     void delete(long id);
     void delete(SelectedItem selectedItem);
     Optional<SelectedItem> findActiveByClubId(long clubId);

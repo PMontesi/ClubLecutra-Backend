@@ -7,18 +7,22 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface RatingRepository extends JpaRepository<Rating, Long> {
 
-    public List<Rating> findBySelectedItem_Id(long selectedItemId);
-    public List<Rating> findByClubMember_Id(long clubMemberId);
-    public Rating findByClubMember_IdAndSelectedItem_Id(long clubMemberId, long selectedItemId);
+    List<Rating> findBySelectedItem_Id(long selectedItemId);
+    List<Rating> findByClubMember_Id(long clubMemberId);
+    Optional<Rating> findByClubMember_IdAndSelectedItem_Id(long clubMemberId, long selectedItemId);
+
     @Query("SELECT r FROM " +
             "Rating r " +
             "JOIN r.selectedItem se " +
             "JOIN r.clubMember cm " +
-            "JOIN cm.appUser a " +
-            "WHERE a.id = :userid AND se.id = :selectedItemId")
-    public Rating findByAppUserIdAndSelectedItemId(@Param("userid") long appUserId, @Param("selectedItemId")long selectedItemId);
+            "WHERE cm.id = :clubMemberId AND se.id = :selectedItemId")
+    Optional<Rating> findByClubMemberIdAndSelectedItemId(@Param("clubMemberId") long clubMemberId, @Param("selectedItemId")long selectedItemId);
+
+
+
 }

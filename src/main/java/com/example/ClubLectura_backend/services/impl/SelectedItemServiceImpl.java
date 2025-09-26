@@ -30,8 +30,8 @@ public class SelectedItemServiceImpl implements SelectedItemService {
     }
 
     @Override
-    public void save(SelectedItem selectedItem) {
-        selectedItemRepository.save(selectedItem);
+    public SelectedItem save(SelectedItem selectedItem) {
+        return selectedItemRepository.save(selectedItem);
     }
 
     @Override

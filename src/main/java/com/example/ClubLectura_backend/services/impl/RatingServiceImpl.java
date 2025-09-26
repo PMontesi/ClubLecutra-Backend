@@ -54,7 +54,7 @@ public class RatingServiceImpl implements RatingService {
     }
 
     @Override
-    public Rating findByClubMember_IdAndSelectedItem_Id(long clubMemberId, long selectedItemId) {
+    public Optional<Rating> findByClubMember_IdAndSelectedItem_Id(long clubMemberId, long selectedItemId) {
         return ratingRepository.findByClubMember_IdAndSelectedItem_Id(clubMemberId, selectedItemId);
     }
 

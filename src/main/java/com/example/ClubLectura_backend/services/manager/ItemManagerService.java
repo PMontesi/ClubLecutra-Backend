@@ -13,6 +13,8 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class ItemManagerService {
 
@@ -39,10 +41,11 @@ public class ItemManagerService {
          */
 
         Item item = se.getItem();
-        Rating rating = ratingService.findByClubMember_IdAndSelectedItem_Id(selectedItemId, clubMemberId);
+        Optional<Rating> ratingOpt = ratingService.findByClubMember_IdAndSelectedItem_Id(clubMemberId, selectedItemId);
 
         int score = -1;
-        if(rating != null) {
+        if(ratingOpt.isPresent()) {
+            Rating rating = ratingOpt.get();
             score = rating.getScore();
         }
 
@@ -53,17 +56,18 @@ public class ItemManagerService {
                 item.getReleaseDate(),
                 se.getStartDate(),
                 se.getEndDate(),
-                score
+                score,
+                se.getId()
         );
     }
 
-    public CardItemDTO createSelectedItem(SelectedItemNewDTO newSelectedItem){
+    public CardItemDTO createSelectedItem(SelectedItemNewDTO newSelectedItem) {
 
         Item item = itemService.findById(newSelectedItem.getItemId())
                 .orElseThrow(() -> new EntityNotFoundException("Item not found"));
         Club club = clubService.getReferenceById(newSelectedItem.getClubId());
 
-        selectedItemService.save(new SelectedItem(
+        SelectedItem seSaved = selectedItemService.save(new SelectedItem(
                 item,
                 club,
                 newSelectedItem.getStartDate(),
@@ -78,21 +82,37 @@ public class ItemManagerService {
                 item.getReleaseDate(),
                 newSelectedItem.getStartDate(),
                 newSelectedItem.getEndDate(),
-                -1
+                -1,
+                seSaved.getId()
+
         );
     }
 
-    public void rateSelectedItem(RatingDTO ratingDTO){
+    public void rateSelectedItem(RatingDTO ratingDTO) {
+        Optional<Rating> existing = ratingService.findByClubMember_IdAndSelectedItem_Id(
+                ratingDTO.getClubMemberId(), ratingDTO.getSelectedItemId());
 
         SelectedItem se = selectedItemService.getReferenceById(ratingDTO.getSelectedItemId());
         ClubMembership cm = clubMembershipService.getReferenceById(ratingDTO.getClubMemberId());
 
-        ratingService.save(new Rating(
-                se,
-                cm,
-                ratingDTO.getScore(),
-                ratingDTO.getDate()
-        ));
+        if(existing.isPresent()) {
+            Rating rating = existing.get();
+            rating.setScore(ratingDTO.getScore());
+            ratingService.save(rating);
+        } else {
+            ratingService.save(new Rating(
+                    se,
+                    cm,
+                    ratingDTO.getScore(),
+                    ratingDTO.getDate()
+            ));
+        }
+
+
+
+
+
+
     }
 
 
