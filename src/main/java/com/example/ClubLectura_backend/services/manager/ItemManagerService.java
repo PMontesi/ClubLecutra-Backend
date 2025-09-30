@@ -30,36 +30,30 @@ public class ItemManagerService {
     ClubMembershipService clubMembershipService;
 
 
-    public CardItemDTO createCardItemDTO(long selectedItemId, long clubMemberId) {
+    public Optional<CardItemDTO> createCardItemDTO(long clubId, long clubMemberId) {
+         return selectedItemService.findActiveByClubId(clubId)
+                .map(se -> {
 
-        SelectedItem se = selectedItemService.findById(selectedItemId)
-                .orElseThrow(() -> new EntityNotFoundException("Selected Item not found"));
+                    Item item = se.getItem();
 
-        /*  Descomentar si da un LazyInitializationException
-        Item item = itemService.findById(se.getItem().getId())
-                .orElseThrow(() -> new EntityNotFoundException("Item not found"));
-         */
+                    int score = ratingService.findByClubMember_IdAndSelectedItem_Id(clubMemberId, se.getId())
+                            .map(Rating::getScore)
+                            .orElse(-1);
 
-        Item item = se.getItem();
-        Optional<Rating> ratingOpt = ratingService.findByClubMember_IdAndSelectedItem_Id(clubMemberId, selectedItemId);
-
-        int score = -1;
-        if(ratingOpt.isPresent()) {
-            Rating rating = ratingOpt.get();
-            score = rating.getScore();
-        }
-
-        return new CardItemDTO(
-                item.getName(),
-                item.getLocation(),
-                item.getAuthor(),
-                item.getReleaseDate(),
-                se.getStartDate(),
-                se.getEndDate(),
-                score,
-                se.getId()
-        );
+                    return new CardItemDTO(
+                            item.getName(),
+                            item.getLocation(),
+                            item.getAuthor(),
+                            item.getReleaseDate(),
+                            se.getStartDate(),
+                            se.getEndDate(),
+                            score,
+                            se.getId(),
+                            se.getIsActive()
+                    );
+                });
     }
+
 
     public CardItemDTO createSelectedItem(SelectedItemNewDTO newSelectedItem) {
 
@@ -83,16 +77,18 @@ public class ItemManagerService {
                 newSelectedItem.getStartDate(),
                 newSelectedItem.getEndDate(),
                 -1,
-                seSaved.getId()
+                seSaved.getId(),
+                seSaved.getIsActive()
 
         );
     }
 
-    public void rateSelectedItem(RatingDTO ratingDTO) {
-        Optional<Rating> existing = ratingService.findByClubMember_IdAndSelectedItem_Id(
-                ratingDTO.getClubMemberId(), ratingDTO.getSelectedItemId());
+    public void rateSelectedItem(long selectedItemId, RatingDTO ratingDTO) {
 
-        SelectedItem se = selectedItemService.getReferenceById(ratingDTO.getSelectedItemId());
+        Optional<Rating> existing = ratingService.findByClubMember_IdAndSelectedItem_Id(
+                ratingDTO.getClubMemberId(), selectedItemId);
+
+        SelectedItem se = selectedItemService.getReferenceById(selectedItemId);
         ClubMembership cm = clubMembershipService.getReferenceById(ratingDTO.getClubMemberId());
 
         if(existing.isPresent()) {

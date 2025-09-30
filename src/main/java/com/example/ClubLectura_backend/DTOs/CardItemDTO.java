@@ -24,5 +24,6 @@ public class CardItemDTO {
     private LocalDate endDate;
     private int rating;
     private long selectedItemId;
+    private boolean active;
 
 }

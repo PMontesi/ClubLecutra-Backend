@@ -12,7 +12,6 @@ import java.time.LocalDate;
 public class RatingDTO {
 
     private long clubMemberId;
-    private long selectedItemId;
     private int score;
     private LocalDate date;
 

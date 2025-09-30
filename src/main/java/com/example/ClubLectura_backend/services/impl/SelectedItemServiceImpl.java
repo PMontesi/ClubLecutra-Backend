@@ -2,6 +2,7 @@ package com.example.ClubLectura_backend.services.impl;
 
 import com.example.ClubLectura_backend.DTOs.EndDateRequest;
 import com.example.ClubLectura_backend.entities.SelectedItem;
+import com.example.ClubLectura_backend.exceptions.InvalidEndDateException;
 import com.example.ClubLectura_backend.repositories.SelectedItemRepository;
 import com.example.ClubLectura_backend.services.SelectedItemService;
 import jakarta.persistence.EntityNotFoundException;
@@ -65,12 +66,12 @@ public class SelectedItemServiceImpl implements SelectedItemService {
         selectedItemRepository.save(se);
     }
 
-    public LocalDate changeEndDate(EndDateRequest request) throws Exception {
-        SelectedItem se = selectedItemRepository.findById(request.getSelectedItemId())
+    public LocalDate changeEndDate(long selectedItemId, EndDateRequest request) {
+        SelectedItem se = selectedItemRepository.findById(selectedItemId)
                 .orElseThrow(() -> new EntityNotFoundException("No Selected Item found"));
 
         if(request.getNewEndDate().isBefore(se.getStartDate()) || request.getNewEndDate().isBefore(LocalDate.now())) {
-            throw new Exception("New end date can't be before the start date or today's date");
+            throw new InvalidEndDateException("New end date can't be before the start date or today's date");
         }
 
         se.setEndDate(request.getNewEndDate());
