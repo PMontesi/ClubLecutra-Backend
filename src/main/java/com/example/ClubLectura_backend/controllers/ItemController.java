@@ -1,6 +1,7 @@
 package com.example.ClubLectura_backend.controllers;
 
 import com.example.ClubLectura_backend.DTOs.CardItemDTO;
+import com.example.ClubLectura_backend.DTOs.EndDateRequest;
 import com.example.ClubLectura_backend.DTOs.RatingDTO;
 import com.example.ClubLectura_backend.DTOs.SelectedItemNewDTO;
 import com.example.ClubLectura_backend.services.impl.ItemServiceImpl;
@@ -51,9 +52,9 @@ public class ItemController {
     }
 
     @PutMapping("/endDate")
-    public ResponseEntity<?> changeSelectedItemEndDate(@RequestParam long selectedItemId, @RequestParam LocalDate newEndDate) {
+    public ResponseEntity<?> changeSelectedItemEndDate(@RequestBody EndDateRequest request) {
        try {
-           LocalDate updatedEndate = selectedItemService.changeEndDate(selectedItemId, newEndDate);
+           LocalDate updatedEndate = selectedItemService.changeEndDate(request);
            return ResponseEntity.ok(updatedEndate);
        } catch (Exception e) {
            return ResponseEntity.badRequest().body(e.getMessage());
