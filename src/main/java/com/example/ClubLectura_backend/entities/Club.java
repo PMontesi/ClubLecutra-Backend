@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -14,7 +15,6 @@ import java.util.List;
 @NoArgsConstructor
 public class Club {
 
-    //Columns
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -28,10 +28,9 @@ public class Club {
     private String type;
     private LocalDate creationDate = LocalDate.now();
 
-    //Relations
     @OneToMany(mappedBy = "club", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JsonManagedReference(value = "club_id")
-    private List<ClubMembership> memberships;
+    private List<ClubMembership> memberships = new ArrayList<>();
 
     @OneToMany(mappedBy = "club", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<SelectedItem> selectedItems;
@@ -41,4 +40,9 @@ public class Club {
         this.name = name;
         this.type = type;
     }
+
+    public void addClubMembership(ClubMembership clubMembership) {
+        this.memberships.add(clubMembership);
+    }
 }
+

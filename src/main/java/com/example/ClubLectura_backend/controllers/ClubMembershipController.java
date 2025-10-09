@@ -23,7 +23,7 @@ public class ClubMembershipController {
     @PostMapping
     public ResponseEntity<?> addMember(@RequestParam long userId, @RequestParam long clubId) {
         try {
-            ClubMembership newMember = clubManagerService.addMember(userId, clubId);
+            ClubMembership newMember = clubManagerService.addMemberByUserId(userId, clubId);
             return ResponseEntity.ok(newMember);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error" + e.getMessage());

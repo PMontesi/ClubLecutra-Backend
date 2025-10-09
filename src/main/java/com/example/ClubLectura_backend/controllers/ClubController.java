@@ -1,6 +1,7 @@
 package com.example.ClubLectura_backend.controllers;
 
 import com.example.ClubLectura_backend.DTOs.ClubDTO;
+import com.example.ClubLectura_backend.DTOs.ClubDTOResponse;
 import com.example.ClubLectura_backend.DTOs.ClubMenuDTO;
 import com.example.ClubLectura_backend.entities.Club;
 import com.example.ClubLectura_backend.services.impl.ClubServiceImpl;
@@ -26,8 +27,8 @@ public class ClubController {
     @PostMapping
     public ResponseEntity<?> create(@RequestBody ClubDTO clubDto) {
         try {
-            Club newClub = clubManagerService.createClub(clubDto);
-            return ResponseEntity.status(HttpStatus.CREATED).body(newClub);
+            ClubDTOResponse dtoResponse = clubManagerService.createClub(clubDto);
+            return ResponseEntity.status(HttpStatus.CREATED).body(dtoResponse);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error" + e.getMessage());
         }

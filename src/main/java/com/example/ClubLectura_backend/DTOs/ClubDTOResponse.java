@@ -9,9 +9,8 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClubDTO {
-    public long creatorId;
-    public String name;
-    public String type;
-    public List<String> usersInvited;
+public class ClubDTOResponse {
+    private long clubId;
+    private long userClubMemberId;
+    private String name;
 }
