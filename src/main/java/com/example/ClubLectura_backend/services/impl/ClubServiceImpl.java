@@ -72,7 +72,8 @@ public class ClubServiceImpl implements ClubService {
                         (String) row[1],                 // clubName
                         row[2] != null ? (Long) row[2] : null, // selectedItemId
                         (String) row[3],                 // itemName
-                        (Long) row[4]                    // userClubMemberId
+                        (Long) row[4],                   // userClubMemberId
+                        (Boolean) row[5]                 // isAdmin
                 ))
                 .toList();
 

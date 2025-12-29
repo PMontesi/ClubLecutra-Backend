@@ -13,7 +13,7 @@ public interface ClubRepository extends JpaRepository<Club, Long> {
 
     // Todo Añadirle la imagen cuando esté
     // Todo Problema serio con los clubs que no tienen ningún item activo pero están ahí
-    @Query("SELECT c.id, c.name, si.id, i.name, cm.id " +
+    @Query("SELECT c.id, c.name, si.id, i.name, cm.id, cm.admin " +
             "FROM Club c " +
             "JOIN c.memberships cm " +
             "JOIN cm.appUser a " +

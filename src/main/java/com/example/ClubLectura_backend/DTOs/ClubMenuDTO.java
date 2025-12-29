@@ -14,14 +14,16 @@ public class ClubMenuDTO {
     private Long selectedItemId;
     private String itemName;
     private Long userClubMemberId;
+    private Boolean isAdmin;
     //private String itemImage;
 
 
-    public ClubMenuDTO(Long clubId, String clubName, Long selectedItemId, String itemName, Long userClubMemberId) {
+    public ClubMenuDTO(Long clubId, String clubName, Long selectedItemId, String itemName, Long userClubMemberId, Boolean isAdmin) {
         this.clubId = clubId;
         this.clubName = clubName;
         this.selectedItemId = selectedItemId;
         this.itemName = itemName;
         this.userClubMemberId = userClubMemberId;
+        this.isAdmin = isAdmin;
     }
 }
