@@ -2,6 +2,8 @@
 
 Una API REST para la gestión de clubs de lectura, desarrollada con Spring Boot como proyecto de aprendizaje de tecnologías backend modernas.
 
+Para ver el proyecto del frontend: https://github.com/PMontesi/ClubLecutra-Frontend
+
 ## ✨ Características
 
 - **API RESTful**: Endpoints bien estructurados para gestión completa
@@ -24,7 +26,7 @@ Una API REST para la gestión de clubs de lectura, desarrollada con Spring Boot 
 
 ```bash
 # Clona el repositorio
-git clone https://github.com/usuario/ClubLectura-Backend.git
+git clone https://github.com/PMontesi/ClubLecutra-Backend.git
 
 # Instalar dependencias
 mvn install
@@ -51,5 +53,4 @@ src/
 │   └── resources/
 │       ├── application.properties    # Configuración
 │       └── static/          # Recursos estáticos
-└── test/                   # Tests unitarios e integración
 ```
